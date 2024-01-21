@@ -1,0 +1,43 @@
+I design my eureka service such that not every user/application can access the server
+
+for a user/application to access the server and account must be created for the user/application and roles assigned
+to the acccount.
+Application can then connect to the discovery server.
+
+With this access to the discovery server can be managed
+
+
+BOOK
+
+1. add, update, delete, read
+
+USER
+2. register, add, update, delete, user[activate/deactivated], customer[activate/deactivated], view_all_users
+
+cart
+add, delete, view
+
+transaction
+add, delete, update, transaction_my_history, transaction_any_user_history
+
+###
+super_admin (can do all)
+customer_user( book_read, user_register, cart_add, cart_delete, cart_view, transaction_add, transaction_my_history)
+moderator( book, cart, customer_activate, customer_deactivate, transaction_add, transaction_my_history, transaction_any_user_history)
+
+
+## docker and deployment
+https://www.youtube.com/watch?v=bhBSlnQcq2k
+
+DevOps
+https://www.youtube.com/channel/UCdngmbVKX1Tgre699-XLlUA
+
+
+Config Server [config server support jpa, github or vault] any of this can be use as the central config serve, we have use
+github for our central config server
+https://dzone.com/articles/using-spring-config-server
+
+https://cloud.spring.io/spring-cloud-config/multi/multi__spring_cloud_config_server.html
+
+
+https://stackoverflow.com/questions/73062721/what-is-diff-between-spring-profiles-active-vs-spring-config-activate-on-profile
