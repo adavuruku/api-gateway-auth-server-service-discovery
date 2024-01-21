@@ -1,0 +1,7 @@
+I design my eureka service such that not every user/application can access the server
+
+for a user/application to access the server and account must be created for the user/application and roles assigned
+to the acccount.
+Application can then connect to the discovery server.
+
+With this access to the discovery server can be managed
