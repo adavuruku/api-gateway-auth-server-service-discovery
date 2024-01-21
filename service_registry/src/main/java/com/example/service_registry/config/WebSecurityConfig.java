@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                         expressionInterceptUrlRegistry.requestMatchers("/securityNone").permitAll()
                                 .requestMatchers("/user").permitAll()
                                 .requestMatchers("/role").permitAll()
+                                .requestMatchers("/actuator/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(
                         form -> form

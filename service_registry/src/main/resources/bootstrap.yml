@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: naming-server
+  cloud:
+    config:
+      import: optional:configserver:http://sherif:sherif!@localhost:8888
+  profiles:
+    active: production
+server:
+  port: 8761
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
