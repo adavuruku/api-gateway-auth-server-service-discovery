@@ -1,7 +1,6 @@
 package com.example.auth_service.security.config;
 
 
-
 import com.example.auth_service.security.filters.AuthEntryPointJwt;
 import com.example.auth_service.security.filters.JWTAuthenticationFilter;
 import com.example.auth_service.security.filters.JWTVerifierFilter;
@@ -47,10 +46,13 @@ public class WebSecurityConfig {
 
     @Autowired
     private AuthenticationManagerBuilder authManagerBuilder;
+
     @Bean
-    public JWTVerifierFilter jwtVerifierFilter(TokensRedisService redisService){
+    public JWTVerifierFilter jwtVerifierFilter(TokensRedisService redisService) {
         return new JWTVerifierFilter(redisService);
-    };
+    }
+
+    ;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -60,23 +62,24 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http.csrf(csrf -> csrf.disable())
-                    .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .authorizeHttpRequests(auth ->
-                            auth.requestMatchers("/api/v1/validateToken/whitelisted").permitAll()
-                                    .anyRequest().authenticated()
-                    );
+        http.csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/api/v1/validateToken/whitelisted").permitAll()
+                                .requestMatchers("/actuator/**").permitAll()
+                                .anyRequest().authenticated()
+                );
 
-            http.authenticationProvider(authenticationProvider());
-            http.addFilter(new JWTAuthenticationFilter(
-                    authManagerBuilder.getOrBuild(),
-                    redisService, new ObjectMapper(), ISSUER, JWT_KEY,TOKEN_EXPIRY
-
-                    ));
-            http.addFilterAfter(jwtVerifierFilter(redisService), JWTAuthenticationFilter.class);
-            return http.build();
+        http.authenticationProvider(authenticationProvider());
+        http.addFilter(new JWTAuthenticationFilter(
+                authManagerBuilder.getOrBuild(),
+                redisService, new ObjectMapper(), ISSUER, JWT_KEY, TOKEN_EXPIRY
+        ));
+        http.addFilterAfter(jwtVerifierFilter(redisService), JWTAuthenticationFilter.class);
+        return http.build();
     }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

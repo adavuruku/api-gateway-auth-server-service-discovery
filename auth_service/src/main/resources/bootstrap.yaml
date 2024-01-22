@@ -1,13 +1,10 @@
 spring:
   application:
     name: authentication-service
-  cloud:
-    config:
-      import: optional:configserver:http://sherif:sherif!@localhost:8888
   profiles:
     active: production
-server:
-  port: 8555
+  config:
+    import: optional:configserver:http://sherif:sherif!@localhost:8888
 management:
   endpoints:
     web:

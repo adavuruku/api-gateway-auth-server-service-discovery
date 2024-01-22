@@ -1,9 +1,8 @@
 spring:
   application:
     name: naming-server
-  cloud:
-    config:
-      import: optional:configserver:http://sherif:sherif!@localhost:8888
+  config:
+    import: optional:configserver:http://sherif:sherif!@localhost:8888
   profiles:
     active: production
 server:

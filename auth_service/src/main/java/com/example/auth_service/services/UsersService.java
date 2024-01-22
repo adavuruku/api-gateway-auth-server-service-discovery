@@ -26,9 +26,9 @@ public class UsersService {
     UsersRepository usersRepository;
 
 
-    @Cacheable(value="user", key = "#email", unless="#result == null")
+    @Cacheable(value="user", key = "#emailAddress", unless="#result == null")
     public Optional<Users> getByUsrName(String emailAddress) {
-        return usersRepository.findByEmail(emailAddress);
+        return usersRepository.findByEmailAddress(emailAddress);
     }
 
 }
