@@ -52,7 +52,7 @@ public class WebSecurityConfig {
         return new JWTVerifierFilter(redisService);
     }
 
-    ;
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -76,7 +76,7 @@ public class WebSecurityConfig {
                 authManagerBuilder.getOrBuild(),
                 redisService, new ObjectMapper(), ISSUER, JWT_KEY, TOKEN_EXPIRY
         ));
-        http.addFilterAfter(jwtVerifierFilter(redisService), JWTAuthenticationFilter.class);
+        http.addFilterBefore(jwtVerifierFilter(redisService), JWTAuthenticationFilter.class);
         return http.build();
     }
 

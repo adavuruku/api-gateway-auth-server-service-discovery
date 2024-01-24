@@ -2,9 +2,9 @@ package com.example.user_service.config;
 
 
 import com.example.user_service.config.security.filters.AuthEntryPointJwt;
+import com.example.user_service.config.security.filters.JWTFilter;
 import com.example.user_service.config.security.filters.JWTVerifierFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,12 +22,6 @@ public class SecurityConfig {
     @Autowired
     private PasswordEncoder encoder;
 
-    @Value("${security.users.username}")
-    private String username;
-
-    @Value("${security.users.password}")
-    private String password;
-
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
@@ -37,12 +31,12 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/v1/users/create").permitAll()
+                        auth.requestMatchers("/api/v1/users/create/customer").permitAll()
                                 .anyRequest().authenticated()
                 );
 
 //        http.authenticationProvider(authenticationProvider());
-        http.addFilter(new JWTVerifierFilter());
+        http.addFilterBefore(new JWTVerifierFilter(), JWTFilter.class);
         return http.build();
     }
 }

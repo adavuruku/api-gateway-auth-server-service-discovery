@@ -61,7 +61,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             JwtAuthenticationModel authModel = mapper.readValue(request.getInputStream(), JwtAuthenticationModel.class);
-            log.info(" Request mapper filter {} {}", mapper.writeValueAsString(authModel), JWT_KEY);
+//            log.info(" Request mapper filter {} {}", mapper.writeValueAsString(authModel));
             Authentication authentication = new UsernamePasswordAuthenticationToken(authModel.getUsername(), authModel.getPassword());
             return authenticationManager.authenticate(authentication);
 

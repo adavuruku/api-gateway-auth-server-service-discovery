@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Slf4j
@@ -32,7 +33,7 @@ public class ApplicationUsers implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> allAuthority = new HashSet<>();
         if(userObject.getIsAdmin().equalsIgnoreCase("Y")) {
-            allAuthority = UserRole.ADMIN.getAuthorities();
+            allAuthority.addAll(UserRole.ADMIN.getAuthorities());
 
             Set<GrantedAuthority> bookAuthority = BookRole.ADMIN.getAuthorities();
             allAuthority.addAll(bookAuthority);
@@ -44,7 +45,7 @@ public class ApplicationUsers implements UserDetails {
             allAuthority.addAll(bookAuthority);
         }
         if(userObject.getIsModerator().equalsIgnoreCase("Y")) {
-            allAuthority = UserRole.MODERATOR.getAuthorities();
+            allAuthority.addAll(UserRole.MODERATOR.getAuthorities());
 
             Set<GrantedAuthority> bookAuthority = BookRole.MODERATOR.getAuthorities();
             allAuthority.addAll(bookAuthority);
@@ -57,7 +58,8 @@ public class ApplicationUsers implements UserDetails {
         }
 
         if(userObject.getIsCustomerUser().equalsIgnoreCase("Y")) {
-            allAuthority = UserRole.CUSTOMERUSER.getAuthorities();
+            log.info("{} {}",userObject.getIsCustomerUser().equalsIgnoreCase("Y"), UserRole.CUSTOMERUSER.getAuthorities());
+            allAuthority.addAll(UserRole.CUSTOMERUSER.getAuthorities());
 
             Set<GrantedAuthority> bookAuthority = BookRole.CUSTOMERUSER.getAuthorities();
             allAuthority.addAll(bookAuthority);
@@ -70,11 +72,16 @@ public class ApplicationUsers implements UserDetails {
 
 
         }
-        try {
-            log.info(String.format("Authorities => {}", new ObjectMapper().writeValueAsString(allAuthority)));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+//        Iterator itr = allAuthority.iterator();
+//        while (itr.hasNext()) {
+//            System.out.println(itr.next());
+//        }
+//        try {
+//            log.info(String.format("Authorities => {}", new ObjectMapper().writeValueAsString(allAuthority.stream().toList())));
+//        } catch (JsonProcessingException e) {
+//            log.info(String.format("Authorities e => {}", e));
+//            throw new RuntimeException(e);
+//        }
 
         return allAuthority;
     }
@@ -92,7 +99,7 @@ public class ApplicationUsers implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -102,11 +109,13 @@ public class ApplicationUsers implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return userObject.isAccountDeleted();
+        return !userObject.isAccountDeleted();
     }
+
+
 }

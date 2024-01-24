@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
+    @CircuitBreaker(name = "user-service-breaker", fallbackMethod = "usersFallbackMethod")
 //    @PreAuthorize("hasAnyAuthority('USER_WRITE')")
     @PostMapping(value = "/create/customer", consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})

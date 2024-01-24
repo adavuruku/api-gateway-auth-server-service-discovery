@@ -2,10 +2,7 @@ package com.example.user_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +15,11 @@ import java.util.Date;
 
 @Document(collection="users")
 @Data
-@Builder
+//@Builder
+@NoArgsConstructor
+//@AllArgsConstructor
+//@Setter
+//@Getter
 public class Users implements Serializable {
 
     @Id
@@ -75,7 +76,6 @@ public class Users implements Serializable {
 
     @Field(name = "isAccountLocked")
     private boolean isAccountLocked = false;
-
 
     @Override
     public String toString()

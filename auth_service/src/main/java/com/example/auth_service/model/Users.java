@@ -34,7 +34,6 @@ public class Users implements Serializable {
 
     @Field(name = "Password")
     @NotNull
-    @JsonIgnore
     private String password;
 
     @Field(name = "ProfileImage")

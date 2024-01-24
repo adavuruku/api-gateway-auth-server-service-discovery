@@ -2,6 +2,7 @@ package com.example.auth_service.security.services;
 
 
 
+import com.example.auth_service.model.Users;
 import com.example.auth_service.security.ApplicationUsers;
 import com.example.auth_service.services.UsersService;
 import lombok.extern.slf4j.Slf4j;

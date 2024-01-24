@@ -14,10 +14,10 @@ public interface UsersRepository extends MongoRepository<Users, String>{
 
     Optional<Users> findByEmailAddress(String email);
 
-    Users findByUsernameAndPassword(String username, String password);
+//    Users findByUsernameAndPassword(String username, String password);
 
-    HashSet<Users> findByUsernameContaining(String username);
+//    HashSet<Users> findByUsernameContaining(String username);
 
-    HashSet<Users> findByFullnameContaining(String fullname);
+//    HashSet<Users> findByFullnameContaining(String fullname);
 
 }

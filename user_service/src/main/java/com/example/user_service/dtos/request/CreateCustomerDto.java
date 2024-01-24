@@ -22,7 +22,7 @@ public class CreateCustomerDto {
     @Size(min = 8, message = "Password must be atleast 8 characters long", groups = {ValidationLevel.onCreate.class, ValidationLevel.onPasswordChange.class, ValidationLevel.onAuthenticateUser.class})
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{2,}$", message = "Password must contain atleast One Special Character and a Capital Letter",
             groups = {ValidationLevel.onCreate.class, ValidationLevel.onPasswordChange.class, ValidationLevel.onAuthenticateUser.class})
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
 
