@@ -1,4 +1,4 @@
-package com.example.auth_service.dtos;
+package com.example.auth_service.security;
 
 
 
