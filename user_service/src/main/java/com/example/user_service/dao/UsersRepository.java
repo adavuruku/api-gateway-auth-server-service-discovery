@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -13,6 +14,16 @@ import java.util.Optional;
 public interface UsersRepository extends MongoRepository<Users, String>{
 
     Optional<Users> findByEmailAddress(String email);
+    Optional<Users> findByEmailAddressAndIsCustomer(String email, String isCustomer);
+
+    List<Users> findByIsAccountLockedIsAccountDeletedIsCustomer(boolean isAccountLocked, boolean isAccountDeleted, String isCustomer);
+
+    List<Users> findByIsAccountLockedIsAccountDeletedIsModerator(boolean isAccountLocked, boolean isAccountDeleted, String isModerator);
+
+    List<Users> findByIsAccountLockedIsAccountDeletedIsAdmin(boolean isAccountLocked, boolean isAccountDeleted, String isAdmin);
+
+    Optional<Users> findByEmailAddressAndIsAccountDeleted(String emailAddress, boolean isAccountDeleted);
+    Optional<Users> findByIdAndIsAccountDeleted(String id, boolean isAccountDeleted);
 
 //    Users findByUsernameAndPassword(String username, String password);
 

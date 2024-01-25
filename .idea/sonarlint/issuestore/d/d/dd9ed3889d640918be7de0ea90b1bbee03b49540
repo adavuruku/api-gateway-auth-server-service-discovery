@@ -1,0 +1,15 @@
+
+m
+java:S1104"RMake PREFIX a static final constant or non-public and provide accessors if needed.(û¦÷šúÿÿÿÿ
+h
+java:S1104"RMake HEADER a static final constant or non-public and provide accessors if needed.(çý™‡
+G
+java:S1444",Make this "public static PREFIX" field final(û¦÷šúÿÿÿÿ
+B
+java:S1444",Make this "public static HEADER" field final(çý™‡
+l
+java:S3008"QRename this field "PREFIX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û¦÷šúÿÿÿÿ
+g
+java:S3008"QRename this field "HEADER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çý™‡
+P
+java:S1118":Add a private constructor to hide the implicit public one.(–“Öâ

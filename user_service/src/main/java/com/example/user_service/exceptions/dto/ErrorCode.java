@@ -1,5 +1,6 @@
-package com.example.user_service.exceptions;
+package com.example.user_service.exceptions.dto;
 
+import com.example.user_service.exceptions.IllegalArgumentException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
@@ -14,7 +15,8 @@ public enum ErrorCode {
     INVALID_OPERATION("InvalidOperation", "Operation not allowed", HttpStatus.PRECONDITION_FAILED),
     FILE_STORAGE_ERROR("FileStorageException", "Error occurred while creating the file storage directory.", HttpStatus.INTERNAL_SERVER_ERROR),
     FILE_PARSING_ERROR("FileParsingException", "Error occurred while parsing the file.", HttpStatus.INTERNAL_SERVER_ERROR),
-    INTERNAL_SERVER_ERROR("InternalServerError", "Internal Server Error",  HttpStatus.INTERNAL_SERVER_ERROR);
+    INTERNAL_SERVER_ERROR("InternalServerError", "Internal Server Error",  HttpStatus.INTERNAL_SERVER_ERROR),
+    CONFLICT("DuplicateKeyException", "Record already exists",  HttpStatus.CONFLICT);
     private final String shortCode;
 
     private final String message;

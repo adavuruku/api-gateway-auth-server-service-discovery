@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +31,7 @@ public class JWTVerifierFilter extends OncePerRequestFilter {
         String username=httpServletRequest.getHeader("username");
         List<Map<String, String>> authorities = new ArrayList<>();
         String authoritiesStr = httpServletRequest.getHeader("authorities");
+        logger.info("User Authorities - "+ authoritiesStr);
         Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
         if(Utilities.validString(authoritiesStr)) {
             simpleGrantedAuthorities=Arrays.stream(authoritiesStr.split(",")).distinct()

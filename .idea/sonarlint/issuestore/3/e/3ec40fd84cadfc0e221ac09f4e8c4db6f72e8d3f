@@ -1,0 +1,19 @@
+
+w
+java:S1104"aMake bCryptEncoderStrength a static final constant or non-public and provide accessors if needed.(¥ψβϊ
+o
+java:S1104"YMake USERID_PREFIX a static final constant or non-public and provide accessors if needed.(Ρέντ
+x
+java:S1104"bMake USERID_FORMATTOR_PARAM a static final constant or non-public and provide accessors if needed.(κΐΑπ
+Q
+java:S1444";Make this "public static bCryptEncoderStrength" field final(¥ψβϊ
+I
+java:S1444"3Make this "public static USERID_PREFIX" field final(Ρέντ
+R
+java:S1444"<Make this "public static USERID_FORMATTOR_PARAM" field final(κΐΑπ
+n
+java:S3008"XRename this field "USERID_PREFIX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ρέντ
+w
+java:S3008"aRename this field "USERID_FORMATTOR_PARAM" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(κΐΑπ
+P
+java:S1118":Add a private constructor to hide the implicit public one.(³ύƒ

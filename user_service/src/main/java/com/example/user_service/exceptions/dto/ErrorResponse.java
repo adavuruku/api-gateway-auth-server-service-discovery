@@ -1,10 +1,11 @@
-package com.example.user_service.exceptions;
+package com.example.user_service.exceptions.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -17,5 +18,5 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 public class ErrorResponse {
     private ErrorCode errorCode;
     private String message;
-    private Map<String, String> details;
+    private Map<String, String> details = new HashMap<>();
 }

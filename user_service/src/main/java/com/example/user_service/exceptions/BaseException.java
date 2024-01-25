@@ -1,4 +1,5 @@
 package com.example.user_service.exceptions;
+import com.example.user_service.exceptions.dto.ErrorCode;
 import lombok.Getter;
 
 import java.util.Map;

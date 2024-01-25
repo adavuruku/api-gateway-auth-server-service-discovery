@@ -6,8 +6,10 @@ import com.example.user_service.dtos.request.CreateCustomerDto;
 import com.example.user_service.dtos.response.CreateUserResponseDto;
 import com.example.user_service.model.Users;
 import com.example.user_service.service.UserService;
+import com.example.user_service.utils.ValidationLevel;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.Optional;
 
 @Loggable
 @RestController
+@Validated
 @RequestMapping("/api/v1/users")
 public class UserController {
 
@@ -29,12 +32,31 @@ public class UserController {
     private UserService userService;
 
     @CircuitBreaker(name = "user-service-breaker", fallbackMethod = "usersFallbackMethod")
-//    @PreAuthorize("hasAnyAuthority('USER_WRITE')")
     @PostMapping(value = "/create/customer", consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CreateUserResponseDto> createUser(@Validated @RequestBody CreateCustomerDto createCustomerDto) {
+    @Validated(ValidationLevel.onCreate.class)
+    public ResponseEntity<CreateUserResponseDto> createUser(@RequestBody @Valid CreateCustomerDto createCustomerDto) {
         try {
             Users user = userService.createCustomer(createCustomerDto);
+
+            CreateUserResponseDto respModel = CreateUserResponseDto.builder()
+                    .data(user).code(HttpStatus.CREATED.value()).message(
+                            CommonConstants.SUCCESSFUL_POST_MESSAGE
+                    ).build();
+            return new ResponseEntity(respModel, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @CircuitBreaker(name = "user-service-breaker", fallbackMethod = "usersFallbackMethod")
+    @PreAuthorize("hasAnyAuthority('REGISTER_USER')")
+    @PostMapping(value = "/create/admin", consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Validated(ValidationLevel.onAdminCreate.class)
+    public ResponseEntity<CreateUserResponseDto> createAdminUser(@RequestBody @Valid CreateCustomerDto createCustomerDto) {
+        try {
+            Users user = userService.createAdminUsers(createCustomerDto);
 
             CreateUserResponseDto respModel = CreateUserResponseDto.builder()
                     .data(user).code(HttpStatus.CREATED.value()).message(

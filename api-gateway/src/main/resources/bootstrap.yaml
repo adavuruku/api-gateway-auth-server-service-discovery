@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: production
+  config:
+    import: optional:configserver:http://sherif:sherif!@localhost:8888
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
