@@ -25,6 +25,8 @@ public interface UsersRepository extends MongoRepository<Users, String>{
     Optional<Users> findByEmailAddressAndIsAccountDeleted(String emailAddress, boolean isAccountDeleted);
     Optional<Users> findByIdAndIsAccountDeleted(String id, boolean isAccountDeleted);
 
+    Optional<Users> findByEmailAddressAndIsAccountDeletedAndIsAccountLocked(String emailAddress, boolean isAccountDeleted, boolean isAccountLocked);
+
 //    Users findByUsernameAndPassword(String username, String password);
 
 //    HashSet<Users> findByUsernameContaining(String username);

@@ -8,7 +8,6 @@ import com.example.user_service.model.Users;
 import com.mongodb.DuplicateKeyException;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,8 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 public class UserService {
-
+//todo -> admin/moderator get all deleted accounts group by types [customers, admin, moderator]
+//    todo -> admin/moderator get all deactivated account group by types [customers, admin, moderator]
     private final UsersRepository usersRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
 
@@ -166,6 +166,7 @@ public class UserService {
             Users userRecord = usersRepository.findByEmailAddress(createCustomer.getEmailAddress()).orElseThrow(
                     () -> new ResourceNotFoundException("User doesn't exist", error));
             userRecord.setAccountDeleted(true);
+            userRecord.setEmailAddress(userRecord.getId().toString().concat("_").concat(userRecord.getEmailAddress()));
             usersRepository.save(userRecord);
 
             return userRecord;
@@ -183,6 +184,7 @@ public class UserService {
             Users userRecord = usersRepository.findByEmailAddress(emailAddress).orElseThrow(
                     () -> new ResourceNotFoundException("User doesn't exist", error));
             userRecord.setAccountDeleted(true);
+            userRecord.setEmailAddress(userRecord.getId().toString().concat("_").concat(userRecord.getEmailAddress()));
             usersRepository.save(userRecord);
 
             return userRecord;
@@ -229,6 +231,33 @@ public class UserService {
                 throw new PasswordMissMatchException("Invalid previous / existing password provided!", null);
             }
             userRecord.setPassword(bCryptPasswordEncoder.encode(createCustomerDto.getNewPassword()));
+            usersRepository.save(userRecord);
+
+            return userRecord;
+
+        } catch (ResourceNotFoundException | PasswordMissMatchException ex) {
+            throw ex;
+        }
+    }
+
+    //not yet completed [contactAddress profileImage phoneNumber]
+    public Users updateMyAccount(CreateCustomerDto createCustomerDto) {
+        try {
+            Map<String, String> error = new HashMap<>();
+            error.put("Email", createCustomerDto.getEmailAddress());
+
+            Users userRecord = usersRepository.findByEmailAddressAndIsAccountDeletedAndIsAccountLocked(createCustomerDto.getEmailAddress(), false, false).orElseThrow(
+                    () -> new ResourceNotFoundException("User doesn't exist", error));
+
+            userRecord.setContactAddress(
+                    createCustomerDto.getContactAddress() == null ? userRecord.getContactAddress() : createCustomerDto.getContactAddress()
+            );
+            userRecord.setProfileImage(
+                    createCustomerDto.getProfileImage() == null ? userRecord.getProfileImage() : createCustomerDto.getProfileImage()
+            );
+            userRecord.setPhoneNumber(
+                    createCustomerDto.getPhoneNumber() == null ? userRecord.getPhoneNumber() : createCustomerDto.getPhoneNumber()
+            );
             usersRepository.save(userRecord);
 
             return userRecord;
