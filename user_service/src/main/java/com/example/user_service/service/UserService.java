@@ -54,11 +54,11 @@ public class UserService {
     }
 
     @Cacheable(value = "user", key = "#emailAddress", unless = "#result == null")
-    public Users getByUserName(String emailAddress) {
+    public Users getByUserNameOrId(String emailAddress) {
         try {
             Map<String, String> error = new HashMap<>();
             error.put("Username", emailAddress);
-            return usersRepository.findByEmailAddressAndIsAccountDeleted(emailAddress, false).orElseThrow(
+            return usersRepository.findByEmailAddressOrIdAndIsAccountDeleted(emailAddress, emailAddress, false).orElseThrow(
                     () -> new ResourceNotFoundException("User doesn't exist", error));
         } catch (ResourceNotFoundException ex) {
             throw ex;

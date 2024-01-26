@@ -77,10 +77,10 @@ public class UserController {
         Users user = userService.updateMyAccountPassword(createCustomerDto);
 
         UserResponseDto respModel = UserResponseDto.builder()
-                .data(null).code(HttpStatus.NO_CONTENT.value()).message(
+                .data(user).code(HttpStatus.OK.value()).message(
                         CommonConstants.SUCCESSFUL_PUT_MESSAGE
                 ).build();
-        return new ResponseEntity(respModel, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(respModel, HttpStatus.OK);
     }
 
     @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
@@ -169,10 +169,10 @@ public class UserController {
 
         Users user = userService.adminActivateOrDeactivateUsersRecord(true,emailAddress);
         UserResponseDto respModel = UserResponseDto.builder()
-                .data(user).code(HttpStatus.NO_CONTENT.value()).message(
-                        CommonConstants.SUCCESSFUL_DELETE_MESSAGE
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_PUT_MESSAGE
                 ).build();
-        return new ResponseEntity(respModel, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(respModel, HttpStatus.OK);
     }
 
     @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
@@ -182,10 +182,10 @@ public class UserController {
 
         Users user = userService.adminActivateOrDeactivateUsersRecord(false,emailAddress);
         UserResponseDto respModel = UserResponseDto.builder()
-                .data(user).code(HttpStatus.NO_CONTENT.value()).message(
-                        CommonConstants.SUCCESSFUL_DELETE_MESSAGE
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_PUT_MESSAGE
                 ).build();
-        return new ResponseEntity(respModel, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(respModel, HttpStatus.OK);
     }
 
     @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
@@ -195,10 +195,10 @@ public class UserController {
 
         Users user = userService.activateOrDeactivateCustomerRecord(true,emailAddress);
         UserResponseDto respModel = UserResponseDto.builder()
-                .data(user).code(HttpStatus.NO_CONTENT.value()).message(
-                        CommonConstants.SUCCESSFUL_DELETE_MESSAGE
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_PUT_MESSAGE
                 ).build();
-        return new ResponseEntity(respModel, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(respModel, HttpStatus.OK);
     }
 
     @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
@@ -208,92 +208,50 @@ public class UserController {
 
         Users user = userService.activateOrDeactivateCustomerRecord(false,emailAddress);
         UserResponseDto respModel = UserResponseDto.builder()
-                .data(user).code(HttpStatus.NO_CONTENT.value()).message(
-                        CommonConstants.SUCCESSFUL_DELETE_MESSAGE
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_PUT_MESSAGE
                 ).build();
-        return new ResponseEntity(respModel, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(respModel, HttpStatus.OK);
     }
 
+    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
+    @GetMapping(value = "/profile/{emailAddressOrId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<UserResponseDto> findUserByEmail(@PathVariable("emailAddressOrId") @NotNull String emailAddressOrId) {
 
-//    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
-//    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<EntityModel<UsersResponseModel>> getUsers() {
-//        UsersResponseModel respModel = new UsersResponseModel();
-//        List<Users> usersLst = usersSvc.getUsersList();
-//        respModel.setUsersLst(usersLst);
-//        respModel.setCode(HttpStatus.OK.value());
-//
-//        EntityModel<UsersResponseModel> entity = EntityModel.of(respModel);
-//        entity = usersProcess.generateHateoas(entity, this, "all-users", null);
-//        return new ResponseEntity(entity, HttpStatus.OK);
-//    }
-//
-//    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
-//    @PreAuthorize("hasAnyAuthority('USER_READ', 'USER')")
-//    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<EntityModel<UsersResponseModel>> getUserById(@PathVariable("id") String id) {
-//        UsersResponseModel respModel = new UsersResponseModel();
-//        Optional<Users> user = usersSvc.findById(id);
-//        if(!user.isPresent()) {
-//            throw new RuntimeException();
-////            throw new UserExceptions.UserNotFoudException(ErrorsMappings.USER_NOT_FOUND_MESSAGE);
-//        }
-//        respModel.setUser(user.get());
-//        respModel.setCode(HttpStatus.OK.value());
-//
-//        EntityModel<UsersResponseModel> entity = EntityModel.of(respModel);
-//        entity = usersProcess.generateHateoas(entity, this, "view-user", user.get().getId());
-//        return new ResponseEntity(entity, HttpStatus.OK);
-//    }
-//
-//
-//    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
-//    @PutMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<EntityModel<UsersResponseModel>> updateUserById(@PathVariable("id") String id,
-//                                                                          @Validated @RequestBody UsersRequestModel usersRequest) {
-//        UsersResponseModel respModel = new UsersResponseModel();
-//        Users user = usersProcess.updateDetails(id, usersRequest);
-//
-//        EntityModel<UsersResponseModel> entity = EntityModel.of(respModel);
-//        entity = usersProcess.generateHateoas(entity, this, "update-user", user.getId());
-//        return new ResponseEntity(entity, HttpStatus.OK);
-//    }
-//
+        Users user = userService.getByUserNameOrId(emailAddressOrId);
+        UserResponseDto respModel = UserResponseDto.builder()
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_OPERATION
+                ).build();
+        return new ResponseEntity(respModel, HttpStatus.OK);
+    }
 
-//    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
-//    @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<EntityModel<UsersResponseModel>> deleteUserById(@PathVariable("id") String id) {
-//        UsersResponseModel respModel = new UsersResponseModel();
-//        Optional<Users> user = usersSvc.findById(id);
-//        if(!user.isPresent()) {
-//            throw new RuntimeException();
-////            throw new UserExceptions.UserNotFoudException(ErrorsMappings.USER_NOT_FOUND_MESSAGE);
-//        }
-//        Users userData = user.get();
-//        userData.setDeletedFlag("Y");
-//        usersSvc.deleteEntry(userData);
-//        respModel.setCode(HttpStatus.OK.value());
-//
-//        EntityModel<UsersResponseModel> entity = EntityModel.of(respModel);
-//        entity = usersProcess.generateHateoas(entity, this, "delete-user", null);
-//        return new ResponseEntity(entity, HttpStatus.OK);
-//    }
-//
-//
-//    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
-//    @PostMapping(value = "/authenticate")
-//    public ResponseEntity<EntityModel<UsersResponseModel>> authenticateUser(@Validated @RequestBody UsersRequestModel usersRequest) {
-//        UsersResponseModel respModel = new UsersResponseModel();
-//        Users user = usersProcess.validateUserLogin(usersRequest);
-//        respModel.setUser(user);
-//        respModel.setCode(HttpStatus.OK.value());
-//        EntityModel<UsersResponseModel> entity = EntityModel.of(respModel);
-////		entity = usersProcess.generateHateoas(entity, this, "authenticate", user.getId());
-//        String token = usersProcess.generateToken(user);
-//        return ResponseEntity.ok().header(SecurityConstants.HEADER, token).body(entity);
-////        return ResponseEntity.ok().header("Authorization", token).body(entity);
-//    }
+    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
+    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<UserResponseDto> getLoginUser(Principal principal) {
 
+        Users user = userService.getByUserNameOrId(principal.getName());
+        UserResponseDto respModel = UserResponseDto.builder()
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_OPERATION
+                ).build();
+        return new ResponseEntity(respModel, HttpStatus.OK);
+    }
+
+    @CircuitBreaker(name = "usersBreaker", fallbackMethod = "usersFallbackMethod")
+    @PutMapping(value = "/admin/update-users-role", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasAnyAuthority('UPDATE_USER')")
+    @Validated(ValidationLevel.onAdminUpdateRole.class)
+    public ResponseEntity<UserResponseDto> updateUserAsAdminOrModerator(@RequestBody @Valid CreateCustomerDto createCustomerDto) {
+
+        Users user = userService.updateUserAdminAndModeratorStatus(createCustomerDto);
+        UserResponseDto respModel = UserResponseDto.builder()
+                .data(user).code(HttpStatus.OK.value()).message(
+                        CommonConstants.SUCCESSFUL_PUT_MESSAGE
+                ).build();
+        return new ResponseEntity(respModel, HttpStatus.OK);
+    }
+    
 
     public ResponseEntity<UserResponseDto> usersFallbackMethod(CallNotPermittedException ex) {
         UserResponseDto respModel = UserResponseDto.builder()
