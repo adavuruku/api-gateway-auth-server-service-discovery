@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface UsersRepository extends MongoRepository<Users, String>{
 
     Optional<Users> findByEmailAddress(String email);
-    Optional<Users> findByEmailAddressAndIsCustomer(String email, String isCustomer);
+    Optional<Users> findByEmailAddressAndIsCustomerUser(String email, String isCustomerUser);
 
-    List<Users> findByIsAccountLockedIsAccountDeletedIsCustomer(boolean isAccountLocked, boolean isAccountDeleted, String isCustomer);
+    List<Users> findByIsAccountLockedIsAccountDeletedIsCustomerUser(boolean isAccountLocked, boolean isAccountDeleted, String isCustomerUser);
 
     List<Users> findByIsAccountLockedIsAccountDeletedIsModerator(boolean isAccountLocked, boolean isAccountDeleted, String isModerator);
 
@@ -26,6 +26,8 @@ public interface UsersRepository extends MongoRepository<Users, String>{
     Optional<Users> findByIdAndIsAccountDeleted(String id, boolean isAccountDeleted);
 
     Optional<Users> findByEmailAddressAndIsAccountDeletedAndIsAccountLocked(String emailAddress, boolean isAccountDeleted, boolean isAccountLocked);
+
+    Optional<Users> findByEmailAddressAndId(String emailAddress, String id);
 
 //    Users findByUsernameAndPassword(String username, String password);
 

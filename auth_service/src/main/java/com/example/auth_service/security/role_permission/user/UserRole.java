@@ -12,11 +12,11 @@ public enum UserRole {
     GUEST(new HashSet<>()),
     CUSTOMERUSER(new HashSet<>(Arrays.asList(UserPermission.UPDATE_MY_ACCOUNT, UserPermission.DELETE_MY_ACCOUNT))),
     MODERATOR(new HashSet<>(Arrays.asList(UserPermission.ACTIVATE_DEACTIVATE_CUSTOMER,
-            UserPermission.VIEW_ALL_USERS, UserPermission.UPDATE_MY_ACCOUNT))),
+            UserPermission.VIEW_ALL_CUSTOMER_USERS, UserPermission.UPDATE_MY_ACCOUNT, UserPermission.DELETE_CUSTOMER))),
     ADMIN(new HashSet<>(Arrays.asList(UserPermission.ACTIVATE_DEACTIVATE_CUSTOMER,
-            UserPermission.VIEW_ALL_USERS, UserPermission.UPDATE_MY_ACCOUNT, UserPermission.DELETE_MY_ACCOUNT,
+            UserPermission.VIEW_ALL_CUSTOMER_USERS, UserPermission.UPDATE_MY_ACCOUNT, UserPermission.DELETE_MY_ACCOUNT,
             UserPermission.ACTIVATE_DEACTIVATE_USER, UserPermission.UPDATE_USER, UserPermission.REGISTER_USER,
-            UserPermission.DELETE_USER, UserPermission.DELETE_CUSTOMER)));
+            UserPermission.DELETE_USER, UserPermission.DELETE_CUSTOMER, UserPermission.VIEW_ALL_ADMIN_USERS)));
 
     Set<UserPermission> permissions;
 

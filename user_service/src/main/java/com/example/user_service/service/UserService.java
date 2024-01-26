@@ -124,14 +124,14 @@ public class UserService {
         }
     }
 
-    public Users adminDeactivateUsersRecord(CreateCustomerDto createCustomer) {
+    public Users adminActivateOrDeactivateUsersRecord(boolean value, String emailAddress) {
         try {
             Map<String, String> error = new HashMap<>();
-            error.put("Email", createCustomer.getEmailAddress());
+            error.put("Email", emailAddress);
 
-            Users userRecord = usersRepository.findByEmailAddress(createCustomer.getEmailAddress()).orElseThrow(
+            Users userRecord = usersRepository.findByEmailAddress(emailAddress).orElseThrow(
                     () -> new ResourceNotFoundException("User doesn't exist", error));
-            userRecord.setAccountLocked(true);
+            userRecord.setAccountLocked(value);
             usersRepository.save(userRecord);
 
             return userRecord;
@@ -141,14 +141,14 @@ public class UserService {
         }
     }
 
-    public Users adminActivateUsersRecord(CreateCustomerDto createCustomer) {
+    public Users activateOrDeactivateCustomerRecord(boolean value, String emailAddress) {
         try {
             Map<String, String> error = new HashMap<>();
-            error.put("Email", createCustomer.getEmailAddress());
+            error.put("Email", emailAddress);
 
-            Users userRecord = usersRepository.findByEmailAddress(createCustomer.getEmailAddress()).orElseThrow(
+            Users userRecord = usersRepository.findByEmailAddress(emailAddress).orElseThrow(
                     () -> new ResourceNotFoundException("User doesn't exist", error));
-            userRecord.setAccountLocked(false);
+            userRecord.setAccountLocked(value);
             usersRepository.save(userRecord);
 
             return userRecord;
@@ -158,25 +158,7 @@ public class UserService {
         }
     }
 
-    public Users adminDeleteUsersRecord(CreateCustomerDto createCustomer) {
-        try {
-            Map<String, String> error = new HashMap<>();
-            error.put("Email", createCustomer.getEmailAddress());
-
-            Users userRecord = usersRepository.findByEmailAddress(createCustomer.getEmailAddress()).orElseThrow(
-                    () -> new ResourceNotFoundException("User doesn't exist", error));
-            userRecord.setAccountDeleted(true);
-            userRecord.setEmailAddress(userRecord.getId().toString().concat("_").concat(userRecord.getEmailAddress()));
-            usersRepository.save(userRecord);
-
-            return userRecord;
-
-        } catch (ResourceNotFoundException ex) {
-            throw ex;
-        }
-    }
-
-    public Users deleteMyPersonalAccount(String emailAddress) {
+    public boolean deleteMyPersonalAccount(String emailAddress) {
         try {
             Map<String, String> error = new HashMap<>();
             error.put("Email", emailAddress);
@@ -186,8 +168,7 @@ public class UserService {
             userRecord.setAccountDeleted(true);
             userRecord.setEmailAddress(userRecord.getId().toString().concat("_").concat(userRecord.getEmailAddress()));
             usersRepository.save(userRecord);
-
-            return userRecord;
+            return true;
 
         } catch (ResourceNotFoundException ex) {
             throw ex;
@@ -197,7 +178,7 @@ public class UserService {
     public List<Users> getAllCustomers() {
         try {
 
-            List<Users> userRecord = usersRepository.findByIsAccountLockedIsAccountDeletedIsCustomer(false, false, "Y");
+            List<Users> userRecord = usersRepository.findByIsAccountLockedIsAccountDeletedIsCustomerUser(false, false, "Y");
             return userRecord;
 
         } catch (Exception ex) {
@@ -240,7 +221,6 @@ public class UserService {
         }
     }
 
-    //not yet completed [contactAddress profileImage phoneNumber]
     public Users updateMyAccount(CreateCustomerDto createCustomerDto) {
         try {
             Map<String, String> error = new HashMap<>();

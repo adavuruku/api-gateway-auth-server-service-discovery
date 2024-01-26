@@ -7,6 +7,5 @@ public class ValidationLevel {
     public interface onUpdate{}
     public interface onAdminCreate{}
     public interface onAdminUpdateRole{}
-    public interface onUpdatePassword{}
 
 }

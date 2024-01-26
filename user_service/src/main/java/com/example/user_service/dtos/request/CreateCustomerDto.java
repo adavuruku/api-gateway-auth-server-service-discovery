@@ -38,10 +38,10 @@ public class CreateCustomerDto {
     private String profileImage;
 
     @Email(message = "Email Address is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",
-            groups = {ValidationLevel.onCreate.class, ValidationLevel.onAdminUpdateRole.class,ValidationLevel.onPasswordChange.class, ValidationLevel.onUpdate.class})
+            groups = {ValidationLevel.onCreate.class, ValidationLevel.onAdminUpdateRole.class})
     @NotEmpty(message = "Email Address cannot be empty",
-            groups = {ValidationLevel.onCreate.class, ValidationLevel.onAdminUpdateRole.class, ValidationLevel.onPasswordChange.class, ValidationLevel.onUpdate.class})
-    @NotNull(message="Email Address is mandatory", groups = {ValidationLevel.onCreate.class, ValidationLevel.onAdminUpdateRole.class, ValidationLevel.onPasswordChange.class,ValidationLevel.onUpdate.class})
+            groups = {ValidationLevel.onCreate.class, ValidationLevel.onAdminUpdateRole.class})
+    @NotNull(message="Email Address is mandatory", groups = {ValidationLevel.onCreate.class, ValidationLevel.onAdminUpdateRole.class})
     private String emailAddress;
 
     private String contactAddress;
